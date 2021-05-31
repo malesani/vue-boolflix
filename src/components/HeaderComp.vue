@@ -2,10 +2,10 @@
   <div class="main">
     <h1>BOOLFLIX</h1>
     <div class="search">
-      <input type="text" placeholder="busca el film"
+      <input type="text" placeholder="Busca el Film"
                 v-model="search">
-      <button @click="buscarPeliculas">search Peliculas</button>
-      <button @click="buscarSeries">search Series</button>
+      <button @click="buscarPeliculas">Search Peliculas</button>
+      <button @click="buscarSeries">Search Series</button>
     </div>
   </div>
 </template>
