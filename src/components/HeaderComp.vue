@@ -43,4 +43,25 @@ export default {
       margin-left: 10px;
     }
   }
+  input{
+    height: 30px;
+    width: 300px;
+    padding-left: 10px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+  }
+  button{
+    padding: 8px;
+    border-radius: 13px;
+    cursor: pointer;
+    color: red;
+    background: black;
+    border: black 1px solid;
+    margin-left: 10px;
+    
+  }
+  button:hover{
+    border: white 1px solid;
+  }
 </style>

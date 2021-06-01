@@ -1,16 +1,17 @@
 <template>
   <div class="container">
+    <!-- busqueda desde la header -->
     <header-comp @buscaPelis="cercaFilm" @buscaSeries="cercaSerie"/>
     <ul>
       <li v-for="(resultado, index) in resultados" :key="index">
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <img :src="imgURL+resultado.poster_path" alt="Avatar" style="width:100%;height:300px;">
+              <img :src="imgURL+resultado.poster_path" alt="imagen no disponible" style="width:100%;height:300px;">
             </div>
             <div class="flip-card-back">
               <div>{{resultado.title}} {{resultado.name}}</div>
-                <div v-if="bandiere.includes(resultado.            original_language)"> 
+                <div v-if="bandiere.includes(resultado.original_language)"> 
                   <img :src="require(`../assets/${resultado.original_language}.png`)" alt="">
                 </div>
                 <div v-else>idioma {{resultado.original_language}}</div>
@@ -41,6 +42,47 @@
         </div>
       </li>
     </ul>
+    <!-- predeterminado -->
+    <ul>
+      <li v-for="(noresultado, index) in no_resultados" :key="index">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img :src="imgURL+noresultado.poster_path" alt="no disponible" style="width:100%;height:300px;">
+            </div>
+            <div class="flip-card-back">
+              <div>{{noresultado.title}} {{noresultado.name}}</div>
+                <div v-if="bandiere.includes(noresultado.original_language)"> 
+                  <img :src="require(`../assets/${noresultado.original_language}.png`)" alt="">
+                </div>
+                <div v-else>idioma {{noresultado.original_language}}</div>
+                <div class="stars">
+                  voto
+                  <div class="empy">
+                    <div class="inner">
+                      <i class="far fa-star"></i>
+                      <i class="far fa-star"></i>
+                      <i class="far fa-star"></i>
+                      <i class="far fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </div>
+                  </div>
+                  <div class="solid" :style="`width:${6.7*noresultado.vote_average}px`">
+                    <div class="inner">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                  </div>
+                </div>  
+                <div>{{noresultado.overview}}</div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -53,6 +95,7 @@
     },
     data(){
       return{
+        no_resultados:[],
         resultados:[],
         link : "https://api.themoviedb.org/3/search/",
         api_key : "e88b7b00a17113604dd035c629927671",
@@ -79,8 +122,6 @@
         this.getLink("tv")
       },
 
-     
-
       getLink(type){
         axios.get(this.link+type,{
           params :{
@@ -100,7 +141,14 @@
     },
 
     created(){
-     
+     axios.get("https://api.themoviedb.org/3/search/movie?api_key=e88b7b00a17113604dd035c629927671&query=batman&language=it-IT")
+     .then(ress => {
+       this.no_resultados = ress.data.results;
+       console.log(ress.data.results)
+     })
+     .catch(err => {
+       console.log(err)
+     })
     }
 
   }
@@ -118,10 +166,9 @@
   position: relative;
   width: 100%;
   height: 100%;
-
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 2px 1px 10px 5px red;
 }
 
 .flip-card:hover .flip-card-inner {
@@ -151,7 +198,8 @@
   .container{
     width: 100%;
     height: 100vh;
-    background-color: grey;
+    background-image: url(https://wallpaperaccess.com/full/229832.jpg);
+    background-size: cover;
     overflow: auto;
     ul{
       display: flex;
